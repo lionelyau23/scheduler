@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduler</title>
+    <script src="publicHolidayData.js" defer></script>
+    <script src="timeDay.js" defer></script>
+    <script src="scheduleData.js" defer></script>
+    <script src="pengchauToDiscoverybay.js" defer></script>
+    <script src="schedule.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Peng Chau - <span class="destination selected">Central</span> / <span class="destination">Discovery Bay &amp; Trappist Dairy</span> Ferry</h1>
+    </header>
+    <body>
+        <div class="inputs">
+            <div>
+                <label>From: </label>
+                <select name="from">
+                    <option value="peng-chau">Peng Chau</option>
+                    <option value="central">Central</option>
+                </select>
+            </div>
+            <div>
+                <label>Day: </label>
+                <select name="day">
+                    <option value="mon">Monday</option>
+                    <option value="tue">Tuesday</option>
+                    <option value="wed">Wednesday</option>
+                    <option value="thu">Thursday</option>
+                    <option value="fri">Friday</option>
+                    <option value="sat">Saturday</option>
+                    <option value="sun">Sunday / Public Holiday</option>
+                </select>
+            </div>
+            <div>
+                <label>Time: </label>
+                <input type="time">
+            </div>
+        </div>
+        <div class="schedules">
+            <!-- <div class="day-sheet">
+                <h2>Monday to Saturday</h2>
+                <div class="sheet-container mon tue wed thu fri sat">
+                    <div class="sheet central">
+                        <h3>From Central</h3>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="sheet pengchau">
+                        <h3>From Peng Chau</h3>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-sheet">
+                <h2>Sunday and Public Holiday</h2>
+                <div class="sheet-container sun ph">
+                    <div class="sheet central">
+                        <h3>From Central</h3>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="sheet pengchau">
+                        <h3>From Peng Chau</h3>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="remarks">
+            <h2>Remarks:</h2>
+            <p><u>
+                * Ordinary Ferry Services<br>
+                ^ Last Sailing<br>
+                {} No freight is allowed on the First Sailing on the fast ferry (except bicycle)<br>
+                &#9650; Freight service and consigned freight service will be provided on these fast ferry sailings<br>
+                # The second onward journey of these sailings is to Hei Ling Chau when vessel arrives at Peng Chau. Passengers going to Hei Ling Chau do not need to disembark at Peng Chau Ferry Pier.<br>
+            </u></p>
+        </div>
+    </body>
+</body>
+</html>

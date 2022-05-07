@@ -1,0 +1,27 @@
+.sheet-container {
+    display: flex;
+}
+
+.sheet {
+    border-style: solid;
+    border-width: 1px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.schedules {
+    display: flex;
+}
+
+.highlighted-time {
+    background-color: red;
+    color: white;
+}
+
+.highlighted-sheet {
+    background-color: #D3D3D3;
+}
+
+.destination.selected {
+    background-color: yellow;
+}
