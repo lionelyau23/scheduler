@@ -22,25 +22,13 @@ const initializeDayTime = () => {
     
     selectedDay.value = dayMap[now.getDay()]
 
-    const dates = phData.vcalendar[0].vevent.map(d => d.dtstart[0])
+    const phDates = phData.vcalendar[0].vevent.map(d => d.dtstart[0])
 
     const todayDateAsString = `${now.getFullYear().toString()}${(now.getMonth()+1).toString().padStart(2,"0")}${(now.getDay()+1).toString().padStart(2,"0")}`
 
-    if (dates.includes(todayDateAsString)) {
-        selectedDay.value = dayMap[0]
+    if (phDates.includes(todayDateAsString)) {
+        selectedDay.value = "ph"
     }
 }
 
 initializeDayTime()
-
-
-// const selectedHour = document.querySelector('input[type="time"]')
-// const selectedDay = document.querySelector('select[name="day"]')
-
-// selectedHour.addEventListener('change', ( {target: { value }}) => {
-//     console.log(value)
-// })
-
-// selectedDay.addEventListener('change', ( {target: { value }}) => {
-//     console.log(value)
-// })

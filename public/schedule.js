@@ -64,7 +64,7 @@ const findTime = (time, timeList) => {
         }
     }
 
-    // return the earliest time if no time is suitable
+    // return the earliest non-blank time if no time is suitable
     for (let t of timeList) {
         if (getIntFromText(t.innerHTML) > 0) {
             return t
@@ -81,8 +81,11 @@ const highlightSelectedTime = () => {
     if (previousTime !== null) {
         previousTime.classList.remove("highlighted-time")
     }
-    const time = findTime(selectedTime.value, findTimeList(selectedFrom.value, selectedDay.value))
-    time.classList.add("highlighted-time")
+
+    if (selectedTime.value !== "") {
+        const time = findTime(selectedTime.value, findTimeList(selectedFrom.value, selectedDay.value))
+        time.classList.add("highlighted-time")
+    }
 }
 
 const highlightSheet = () => {
@@ -95,8 +98,34 @@ const highlightSheet = () => {
     sheet.classList.add('highlighted-sheet')
 }
 
+const loadFare = (data) => {
+    const root = document.querySelector('.fare div')
+    root.replaceChildren()
+    root.innerHTML = data
+}
+
+const loadRemarks = (data) => {
+    const root = document.querySelector('.remarks div')
+    root.replaceChildren()
+    root.innerHTML = data
+}
+
+const loadFromLocations = (data) => {
+    selectedFrom.replaceChildren()
+
+    data.forEach(loc => {
+        const node = document.createElement('option')
+        node.setAttribute('value', loc)
+        node.innerText = loc.split("-").map(word => word[0].toUpperCase() + word.substring(1)).join(" ")
+        selectedFrom.appendChild(node)
+    })
+}
+
 const loadAndRefresh = (data) => {
-    loadSchedule(data)
+    loadFromLocations(data.fromLocations)
+    loadSchedule(data.schedules)
+    loadFare(data.fare)
+    loadRemarks(data.remarks)
     highlightSelectedTime()
     highlightSheet()
 }
@@ -107,63 +136,26 @@ const selectedDay = document.querySelector('select[name="day"]')
 
 loadAndRefresh(scheduleData)
 
-// selectedTime.addEventListener('change', ({target: {value}}) => {
-//     console.log(value)
-// }) 
-
 const selections = [selectedTime, selectedFrom, selectedDay]
 
-for (let select of selections) {
-    select.addEventListener('change', () => {
-        highlightSelectedTime()
+selections.forEach(selected => {
+    selected.addEventListener('change', () => {
         highlightSheet()
-    })
-}
-
-let selectedDestination = document.querySelector('.destination.selected')
-
-const destinations = document.querySelectorAll('.destination')
-
-for (let dest of destinations) {
-    dest.addEventListener('click', ({target}) => {
-        if (selectedDestination === target) {
-            return
-        }
-
-        selectedDestination.classList.remove('selected')
-        target.classList.add('selected')
-        selectedDestination = target
-
-        // console.log(document.querySelector('.schedules'))
-        document.querySelector('.schedules').replaceChildren()
-
-        if (target.innerHTML === 'Discovery Bay &amp; Trappist Dairy') {
-            loadSchedule(DBSchedule)
-
-            document.querySelector('select[name="from"] option[value="central"]').remove()
-            let tempNode = document.createElement('option')
-            tempNode.setAttribute('value', 'discovery-bay')
-            tempNode.innerHTML = "Discovery Bay"
-            document.querySelector('select[name="from"]').appendChild(tempNode)
-
-            tempNode = document.createElement('option')
-            tempNode.setAttribute('value', 'trappist-dairy')
-            tempNode.innerHTML = "Trappist Dairy"
-            document.querySelector('select[name="from"]').appendChild(tempNode)
-        } else {
-            loadSchedule(scheduleData)
-
-            document.querySelector('select[name="from"] option[value="discovery-bay"]').remove()
-            document.querySelector('select[name="from"] option[value="trappist-dairy"]').remove()
-
-            let tempNode = document.createElement('option')
-            tempNode.setAttribute('value', 'central')
-            tempNode.innerHTML = "Central"
-            document.querySelector('select[name="from"]').appendChild(tempNode)
-        }
-
         highlightSelectedTime()
-        highlightSheet()
-
     })
-}
+})
+
+const route = document.querySelector('select[name="route"]')
+
+route.value = "peng-chau--central"
+
+route.addEventListener('change', ({ target : {value}}) => {
+    document.querySelector('.schedules').replaceChildren()
+    document.querySelector('.remarks div').replaceChildren()
+
+    selectedFrom.replaceChildren()
+
+    const data = value === "peng-chau--central" ? scheduleData : DBSchedule
+
+    loadAndRefresh(data)
+})
