@@ -1,16 +1,31 @@
-.sheet-container {
+.locSheet-container {
     display: flex;
 }
 
-.sheet {
-    border-style: solid;
-    border-width: 1px;
+.locSheet {
+    border: 1px solid;
     margin: 5px;
     padding: 5px;
 }
 
-.schedules {
+.daySheet-container {
     display: flex;
+}
+
+.daySheet {
+    border: 1px solid;
+    margin: 5px;
+    padding: 5px;
+}
+
+@media (max-width: 600px) {
+    .daySheet-container {
+        display: block;
+    }
+
+    .daySheet {
+        width: fit-content;
+    }
 }
 
 .highlighted-time {

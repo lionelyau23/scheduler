@@ -1,42 +1,53 @@
 const loadSchedule = (data) => {
-    const temp = document.querySelector('.schedules')
+   const root = document.querySelector('.schedules')
 
-    data.forEach((sheet) => {
-        let root = temp.querySelector(`.sheet-container.${sheet.days.replaceAll(" ",".")}`)
-    
-        if (root === null) {
-            const daySheet = document.createElement('div')
-            daySheet.classList.add('day-sheet')
-            const title = document.createElement('h2')
-            title.innerHTML = sheet.days.split(" ").map(w => w[0].toUpperCase() + w.substring(1)).join(" ")
-            daySheet.appendChild(title)
-    
-            const sheetContainer = document.createElement('div')
-            sheetContainer.className = `sheet-container ${sheet.days}`
-            daySheet.appendChild(sheetContainer)
-    
-            temp.appendChild(daySheet)
-            root = sheetContainer
-        }
-    
-        const result = document.createElement("div")
-        result.classList.add("sheet")
-        result.classList.add(sheet.from)
-    
-        const title = document.createElement('h3')
-        title.innerHTML = `From ${sheet.from.split("-").map(word => word[0].toUpperCase() + word.substring(1)).join(" ")}`
-        result.appendChild(title)
-    
-        const times = document.createElement('div')
-    
-        sheet.times.forEach((time) => {
-            const node = document.createElement('div')
-            node.innerHTML = time
-            times.appendChild(node)
-        })
-        result.appendChild(times)
-        root.appendChild(result)
-    })
+   const title = document.createElement('h2')
+   title.innerText = data.title
+   root.appendChild(title)
+
+   const dayContainer = document.createElement('div')
+   dayContainer.classList.add('daySheet-container')
+   root.appendChild(dayContainer)
+
+    // populate each daySheet
+    data.schedules.forEach(daySheet => {
+       const sheet = document.createElement('div')
+       sheet.className = `daySheet ${daySheet.days}`
+       
+       // create title for daySheet
+       const title = document.createElement('h2')
+       title.innerText = daySheet.title
+       sheet.appendChild(title)
+
+       const locContainer = document.createElement('div')
+       locContainer.classList.add('locSheet-container')
+       sheet.appendChild(locContainer)
+
+       // populate each locSheet
+       daySheet.locSheets.forEach(loc => {
+           const locSheet = document.createElement('div')
+           locSheet.className = `locSheet ${loc.from}`
+
+           // create title for locSheet
+           const title = document.createElement('h3')
+           title.innerText = loc.title
+           locSheet.appendChild(title)
+
+           const timeContainer = document.createElement('div')
+           locSheet.appendChild(timeContainer)
+
+           // populate each ferry time
+           loc.times.forEach(time => {
+               const node = document.createElement('div')
+               node.innerHTML = time
+               timeContainer.appendChild(node)
+           })
+
+           locContainer.appendChild(locSheet)
+       })
+
+       dayContainer.appendChild(sheet)
+   })
 }
 
 const getIntFromText = (text) => {
@@ -73,7 +84,7 @@ const findTime = (time, timeList) => {
 }
 
 const findTimeList = (loc, day) => {
-    return document.querySelector(`.sheet-container.${day} .sheet.${loc} > div`).children
+    return document.querySelector(`.daySheet.${day} .locSheet.${loc} > div`).children
 }
 
 const highlightSelectedTime = () => {
@@ -123,7 +134,7 @@ const loadFromLocations = (data) => {
 
 const loadAndRefresh = (data) => {
     loadFromLocations(data.fromLocations)
-    loadSchedule(data.schedules)
+    loadSchedule(data)
     loadFare(data.fare)
     loadRemarks(data.remarks)
     highlightSelectedTime()
