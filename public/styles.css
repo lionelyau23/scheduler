@@ -22,12 +22,15 @@
     background-color: #D3D3D3;
 }
 
-.destination.selected {
-    background-color: yellow;
+table{
+    border-collapse: collapse;
 }
 
-table, th, td {
+td, th {
     border: 1px solid;
-    border-collapse: collapse;
     padding: 5px;
+}
+
+.border-less {
+    border: none;
 }

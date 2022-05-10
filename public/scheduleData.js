@@ -136,29 +136,35 @@ const scheduleData = {
     "fare": `
         <table>
         <tr>
-            <th></th>
+            <th rowspan="2" class="border-less"></th>
             <th colspan="2">Monday to Saturday</th>
             <th colspan="2">Sunday and Public Holidays</th>
         </tr>
         <tr>
+            <td>Ordinary</td>
+            <td>Fast</td>
+            <td>Ordinary</td>
+            <td>Fast</td>
+        </tr>
+        <tr>
             <td>Adult</td>
-            <td>*HK$ 16.6</td>
+            <td>HK$ 16.6</td>
             <td>HK$ 31.0</td>
-            <td>*HK$ 23.9</td>
+            <td>HK$ 23.9</td>
             <td>HK$ 45.6</td>
         </tr>
         <tr>
             <td>Child (aged 3 or above but under 12)</td>
-            <td>*HK$ 8.3</td>
+            <td>HK$ 8.3</td>
             <td>HK$ 15.5</td>
-            <td>*HK$ 11.9</td>
+            <td>HK$ 11.9</td>
             <td>HK$ 22.8</td>
         </tr>
         <tr>
             <td>Elderly (aged 65 or above) / Disabled</td>
-            <td>*HK$ 8.3</td>
+            <td>HK$ 8.3</td>
             <td>HK$ 15.5</td>
-            <td>*HK$ 11.9</td>
+            <td>HK$ 11.9</td>
             <td>HK$ 22.8</td>
         </tr>
         <tr>
