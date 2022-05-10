@@ -7,7 +7,7 @@ const DBSchedule = {
     ],
     "schedules": [
         {   
-            "title": "Monday to Friday",
+            "title": "Monday to Saturday",
             "days": "mon tue wed thu fri sat",
             "locSheets": [
                 {
@@ -35,8 +35,14 @@ const DBSchedule = {
                         "22:00"
                     ],
                     "exceptions": [
-                        { "15:40 +": "mon tue wed thu fri" },
-                        { "20:45 +": "mon tue wed thu fri" },
+                        {
+                            "time": "15:40 +",
+                            "days": "mon tue wed thu fri" 
+                        },
+                        { 
+                            "time": "20:45 +",
+                            "days": "mon tue wed thu fri" 
+                        }
                     ]         
                 },
                 {
@@ -61,11 +67,13 @@ const DBSchedule = {
                         "-----",
                         "-----",
                         "-----",
-                        "-----",
                         "-----"
                     ],
                     "exceptions": [
-                        { "16:00 +": "mon tue wed thu fri" }
+                        { 
+                            "time": "16:00 +", 
+                            "days": "mon tue wed thu fri" 
+                        }
                     ]        
                 },
                 {
@@ -93,8 +101,14 @@ const DBSchedule = {
                         "22:15"
                     ],
                     "exceptions": [
-                        { "15:50 *+": "mon tue wed thu fri" },
-                        { "21:00 +": "mon tue wed thu fri" },
+                        {
+                            "time": "15:50 *+",
+                            "days": "mon tue wed thu fri" 
+                        },
+                        { 
+                            "time": "21:00 +",
+                            "days": "mon tue wed thu fri" 
+                        }
                     ]         
                 }
             ]

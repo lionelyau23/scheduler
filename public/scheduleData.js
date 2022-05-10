@@ -6,7 +6,7 @@ const scheduleData = {
     ],
     "schedules": [
         {
-            "title": "Monday to Friday",
+            "title": "Monday to Saturday",
             "days": "mon tue wed thu fri sat",
             "locSheets": [
                 {

@@ -43,6 +43,21 @@ const loadSchedule = (data) => {
                timeContainer.appendChild(node)
            })
 
+           // store the exceptions in hidden div
+           if (loc.exceptions) {
+                const exceptions = document.createElement('div')
+                exceptions.classList.add('exceptions')
+                exceptions.setAttribute('style', "display:none;")
+
+                loc.exceptions.forEach(e => {
+                    const node = document.createElement('div')
+                    node.innerText = JSON.stringify(e)
+                    exceptions.appendChild(node)
+                })
+
+                locSheet.appendChild(exceptions)
+            }
+
            locContainer.appendChild(locSheet)
        })
 
@@ -84,7 +99,7 @@ const findTime = (time, timeList) => {
 }
 
 const findTimeList = (loc, day) => {
-    return document.querySelector(`.daySheet.${day} .locSheet.${loc} > div`).children
+    return document.querySelector(`.daySheet.${day} .locSheet.${loc}`)
 }
 
 const highlightSelectedTime = () => {
@@ -94,7 +109,22 @@ const highlightSelectedTime = () => {
     }
 
     if (selectedTime.value !== "") {
-        const time = findTime(selectedTime.value, findTimeList(selectedFrom.value, selectedDay.value))
+        const locSheet = findTimeList(selectedFrom.value, selectedDay.value)
+
+        let time = findTime(selectedTime.value, locSheet.querySelector('div').children)
+
+        // if there are exceptions in the selected locSheet
+        if (locSheet.querySelector('.exceptions')) {
+            const exceptions = [...locSheet.querySelector('.exceptions').children].map(e => JSON.parse(e.innerHTML))
+
+            exceptions.forEach(e => {
+                if (e.time === time.innerHTML && e.days.includes(selectedDay.value)) {
+                    time = findTime(time.innerHTML, locSheet.querySelector('div').children)
+                }
+            })
+
+        }
+
         time.classList.add("highlighted-time")
     }
 }
