@@ -34,7 +34,7 @@ const DBSchedule = {
                         "20:45 +",
                         "22:00"
                     ],
-                    "exceptions": [
+                    "except": [
                         {
                             "time": "15:40 +",
                             "days": "mon tue wed thu fri" 
@@ -55,13 +55,13 @@ const DBSchedule = {
                         "-----",
                         "09:30",
                         "10:45",
-                        "11:30 &#8680",
-                        "12:30 &#8680",
+                        "11:30 ⇨",
+                        "12:30 ⇨",
                         "-----",
                         "14:45",
                         "16:00 +",
-                        "16:25 &#8680",
-                        "17:10 &#8680",
+                        "16:25 ⇨",
+                        "17:10 ⇨",
                         "-----",
                         "-----",
                         "-----",
@@ -69,7 +69,7 @@ const DBSchedule = {
                         "-----",
                         "-----"
                     ],
-                    "exceptions": [
+                    "except": [
                         { 
                             "time": "16:00 +", 
                             "days": "mon tue wed thu fri" 
@@ -100,7 +100,7 @@ const DBSchedule = {
                         "21:00 +",
                         "22:15"
                     ],
-                    "exceptions": [
+                    "except": [
                         {
                             "time": "15:50 *+",
                             "days": "mon tue wed thu fri" 
@@ -152,15 +152,15 @@ const DBSchedule = {
                         "08:10",
                         "-----",
                         "09:50",
-                        "10:25 &#8680",
+                        "10:25 ⇨",
                         "11:30",
-                        "12:20 &#8680",
+                        "12:20 ⇨",
                         "-----",
                         "-----",
                         "15:00",
                         "16:00",
-                        "16:25 &#8680",
-                        "17:10 &#8680",
+                        "16:25 ⇨",
+                        "17:10 ⇨",
                         "-----",
                         "-----",
                         "-----",
@@ -221,7 +221,7 @@ const DBSchedule = {
     "remarks": `
         <p>+ Saturday Only</p>
         <p>* Via Trappist Dairy</p>
-        <p>&#8680 From Trappist Dairy to Discovery Bay</p>
+        <p>⇨ From Trappist Dairy to Discovery Bay</p>
         <p><b>For latest ferry info, please refer to <a href="https://en.pengchaukaito.com/ferry-timetable-fare" target="_blank">Peng Chau Kai To</a> or <a href="https://www.td.gov.hk/en/transport_in_hong_kong/public_transport/ferries/kaito_services_map/service_details/index.html#k11" target="_blank">Transport Department</a>.</b></p>
     `
 }

@@ -28,6 +28,10 @@
     }
 }
 
+.timeNode {
+    height: 20px;
+}
+
 .highlighted-time {
     background-color: red;
     color: white;

@@ -39,23 +39,19 @@ const loadSchedule = (data) => {
            // populate each ferry time
            loc.times.forEach(time => {
                const node = document.createElement('div')
-               node.innerHTML = time
+               node.innerText = time
+               node.dataset.time = getIntFromText(time)
+               node.classList.add('timeNode')
                timeContainer.appendChild(node)
            })
 
-           // store the exceptions in hidden div
-           if (loc.exceptions) {
-                const exceptions = document.createElement('div')
-                exceptions.classList.add('exceptions')
-                exceptions.setAttribute('style', "display:none;")
-
-                loc.exceptions.forEach(e => {
-                    const node = document.createElement('div')
-                    node.innerText = JSON.stringify(e)
-                    exceptions.appendChild(node)
+           // if there is except in data
+           if (loc.except) {
+                loc.except.forEach(e => {
+                    // store the exceptions in div data
+                    const target = locSheet.querySelector(`div[data-time="${getIntFromText(e.time)}"]`)
+                    target.dataset.except = e.days
                 })
-
-                locSheet.appendChild(exceptions)
             }
 
            locContainer.appendChild(locSheet)
@@ -66,36 +62,27 @@ const loadSchedule = (data) => {
 }
 
 const getIntFromText = (text) => {
-    return parseInt(text.replaceAll(/\D/g, ''))
+    let result = parseInt(text.replaceAll(/\D/g, ''))
+    return isNaN(result) ? "-" : result
 }
 
 // given a list of times, find the target time html element
-const findTime = (time, timeList) => {
+const findTime = (time, [...timeList]) => {
 
     let timeValue = getIntFromText(time)
 
-    if (timeValue < 100) {
-        timeValue += 2400
-    }
+    timeValue = timeValue < 100 ? timeValue + 2400 : timeValue
 
-    for (let t of timeList) {
-        let tValue = getIntFromText(t.innerHTML)
+    let result = timeList.find(t => {
+        let tValue = parseInt(t.dataset.time)
 
-        if (tValue < 100) {
-            tValue += 2400
-        }
+        tValue = tValue < 100 ? tValue + 2400 : tValue
 
-        if (timeValue < tValue) {
-            return t
-        }
-    }
+        return timeValue < tValue
+    })
 
     // return the earliest non-blank time if no time is suitable
-    for (let t of timeList) {
-        if (getIntFromText(t.innerHTML) > 0) {
-            return t
-        }
-    }
+    return result ? result : timeList.find(t => t.dataset.time != "-")
 }
 
 const findTimeList = (loc, day) => {
@@ -113,16 +100,10 @@ const highlightSelectedTime = () => {
 
         let time = findTime(selectedTime.value, locSheet.querySelector('div').children)
 
-        // if there are exceptions in the selected locSheet
-        if (locSheet.querySelector('.exceptions')) {
-            const exceptions = [...locSheet.querySelector('.exceptions').children].map(e => JSON.parse(e.innerHTML))
-
-            exceptions.forEach(e => {
-                if (e.time === time.innerHTML && e.days.includes(selectedDay.value)) {
-                    time = findTime(time.innerHTML, locSheet.querySelector('div').children)
-                }
-            })
-
+        if (time.dataset.except) {
+            if (time.dataset.except.includes(selectedDay.value)) {
+                time = findTime(time.dataset.time, locSheet.querySelector('div').children)
+            }
         }
 
         time.classList.add("highlighted-time")

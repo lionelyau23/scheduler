@@ -18,15 +18,15 @@ const scheduleData = {
                         "07:40 *",
                         "08:00",
                         "08:30 *",
-                        "09:15 #&#9650;",
+                        "09:15 #▲",
                         "10:00 *",
-                        "10:45 #&#9650;",
+                        "10:45 #▲",
                         "11:30 *",
-                        "12:15 #&#9650;",
+                        "12:15 #▲",
                         "13:00 *",
-                        "13:45 #&#9650;",
+                        "13:45 #▲",
                         "14:30 *",
-                        "15:15 #&#9650;",
+                        "15:15 #▲",
                         "16:10 *",
                         "16:45",
                         "17:30 *",
@@ -56,15 +56,15 @@ const scheduleData = {
                         "08:20 *",
                         "08:35",
                         "09:15 *",
-                        "10:00 &#9650;",
+                        "10:00 ▲",
                         "10:45 *",
-                        "11:30 &#9650;",
+                        "11:30 ▲",
                         "12:15 *",
-                        "13:00 &#9650;",
+                        "13:00 ▲",
                         "13:45 *",
-                        "14:30 &#9650;",
+                        "14:30 ▲",
                         "15:15 *",
-                        "16:00 &#9650;",
+                        "16:00 ▲",
                         "16:55 *",
                         "17:25",
                         "18:15 *",
@@ -190,7 +190,7 @@ const scheduleData = {
         <p>* Ordinary Ferry Services</p>
         <p>^ Last Sailing</p>
         <p>{} No freight is allowed on the First Sailing on the fast ferry (except bicycle)</p>
-        <p>&#9650; Freight service and consigned freight service will be provided on these fast ferry sailings</p>
+        <p>▲ Freight service and consigned freight service will be provided on these fast ferry sailings</p>
         <p># The second onward journey of these sailings is to Hei Ling Chau when vessel arrives at Peng Chau. Passengers going to Hei Ling Chau do not need to disembark at Peng Chau Ferry Pier.</p>
         <p><b>For latest ferry info, please refer to <a href="https://hkkf.com.hk/en/timetables/central-to-peng-chau/" target="_blank">HKKF</a> or <a href="https://www.td.gov.hk/en/transport_in_hong_kong/public_transport/ferries/service_details/?print=1#o03" target="_blank">Transport Department</a>.</b></p>
     `
