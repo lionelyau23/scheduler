@@ -124,22 +124,27 @@ const highlightSheet = () => {
     sheet.classList.add('highlighted-sheet')
 }
 
-const loadFare = (data) => {
+const highlight = () => {
+    highlightSelectedTime()
+    highlightSheet()
+}
+
+const loadFare = (fareData) => {
     const root = document.querySelector('.fare div')
     root.replaceChildren()
-    root.innerHTML = data
+    root.innerHTML = fareData
 }
 
-const loadRemarks = (data) => {
+const loadRemarks = (remarksData) => {
     const root = document.querySelector('.remarks div')
     root.replaceChildren()
-    root.innerHTML = data
+    root.innerHTML = remarksData
 }
 
-const loadFromLocations = (data) => {
+const loadFromOptions = (fromLocationsData) => {
     selectedFrom.replaceChildren()
 
-    data.forEach(loc => {
+    fromLocationsData.forEach(loc => {
         const node = document.createElement('option')
         node.setAttribute('value', loc)
         node.innerText = loc.split("-").map(word => word[0].toUpperCase() + word.substring(1)).join(" ")
@@ -147,36 +152,96 @@ const loadFromLocations = (data) => {
     })
 }
 
-const loadAndRefresh = (data) => {
-    loadFromLocations(data.fromLocations)
+const loadRouteOptions = (routes) => {
+    const root = new DocumentFragment()
+
+    routes.forEach(r => {
+        const option = document.createElement('option')
+        option.setAttribute('value', r.route)
+        option.innerText = r.title
+        root.appendChild(option)
+    })
+
+    document.querySelector('select[name="route"]').appendChild(root)
+}
+
+const initializeSavedRoute = (routes) => {
+    let savedRoute = localStorage.getItem('route')
+    if (!savedRoute || !routes.map(r => r.route).includes(savedRoute)) {
+        localStorage.setItem('route', routes[0].route)
+        savedRoute = localStorage.getItem('route')
+    }
+
+    selectedRoute.value = savedRoute
+}
+
+const initializeSavedFrom = (route, data) => {
+    let savedFrom = localStorage.getItem(route)
+    if (!savedFrom || !data.fromLocations.includes(savedFrom)) {
+        localStorage.setItem(route, data.fromLocations[0])
+        savedFrom = localStorage.getItem(route)
+    }
+
+    selectedFrom.value = savedFrom
+}
+
+const loadScheduleData = (data) => {
+    loadFromOptions(data.fromLocations)
     loadSchedule(data)
     loadFare(data.fare)
     loadRemarks(data.remarks)
-    highlightSelectedTime()
-    highlightSheet()
+}
+
+const initialize = async () => {
+    const rootUrl = location.origin
+
+    // get routes data from server
+    const data = await fetch(`${rootUrl}/routes`).then(res => res.json())
+
+    loadRouteOptions(data)
+
+    // get data of each route from server based on the link in above data
+    for (let d of data) {
+        routeData[d.route] = await fetch(`${rootUrl}/${d.link}`).then(res => res.json())
+    }
+
+    initializeSavedRoute(data)
+    loadScheduleData(routeData[selectedRoute.value])
+
+    initializeSavedFrom(selectedRoute.value, routeData[selectedRoute.value])
+    highlight()
 }
 
 const selectedTime = document.querySelector('input[type="time"]')
 const selectedFrom = document.querySelector('select[name="from"]')
 const selectedDay = document.querySelector('select[name="day"]')
+const selectedRoute = document.querySelector('select[name="route"]')
 
-loadAndRefresh(scheduleData)
+let routeData = {}
 
-const selections = [selectedTime, selectedFrom, selectedDay]
+initialize()
 
-selections.forEach(selected => {
-    selected.addEventListener('change', () => {
-        highlightSheet()
-        highlightSelectedTime()
+const inputs = [selectedTime, selectedFrom, selectedDay]
+
+inputs.forEach(input => {
+    input.addEventListener('change', ( { target } ) => {
+        highlight()
+
+        if (target.getAttribute('name') === "from") {
+            localStorage.setItem(selectedRoute.value, target.value)
+        }
     })
 })
 
-const route = document.querySelector('select[name="route"]')
+selectedRoute.addEventListener('change', ({ target : {value}}) => {
+    const data = routeData[value]
+    loadScheduleData(data)
+    
+    localStorage.setItem('route', value)
 
-route.value = "peng-chau--central"
-
-route.addEventListener('change', ({ target : {value}}) => {
-    const data = value === "peng-chau--central" ? scheduleData : DBSchedule
-
-    loadAndRefresh(data)
+    const savedFrom = localStorage.getItem(value)
+    if (savedFrom) {
+        selectedFrom.value = savedFrom
+    }
+    highlight()
 })
