@@ -1,5 +1,7 @@
 const loadSchedule = (data) => {
-   const root = document.querySelector('.schedules')
+   document.querySelector('.schedules').replaceChildren()
+
+   const root = new DocumentFragment()
 
    const title = document.createElement('h2')
    title.innerText = data.title
@@ -59,6 +61,8 @@ const loadSchedule = (data) => {
 
        dayContainer.appendChild(sheet)
    })
+
+   document.querySelector('.schedules').appendChild(root)
 }
 
 const getIntFromText = (text) => {
@@ -172,11 +176,6 @@ const route = document.querySelector('select[name="route"]')
 route.value = "peng-chau--central"
 
 route.addEventListener('change', ({ target : {value}}) => {
-    document.querySelector('.schedules').replaceChildren()
-    document.querySelector('.remarks div').replaceChildren()
-
-    selectedFrom.replaceChildren()
-
     const data = value === "peng-chau--central" ? scheduleData : DBSchedule
 
     loadAndRefresh(data)
