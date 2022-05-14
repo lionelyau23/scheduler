@@ -192,18 +192,26 @@ const loadScheduleData = (data) => {
     loadRemarks(data.remarks)
 }
 
+const loadData = async (data) => {
+    const temp = (await Promise.allSettled(data.map(d => fetch(`/${d.link}`).then(res => res.json())))).map(p => p.value)
+
+    const result = {}
+
+    data.forEach(d => {
+        result[d.route] = temp.find(t => t.title === d.title)
+    })
+    
+    return result
+}
+
 const initialize = async () => {
-    const rootUrl = location.origin
 
     // get routes data from server
-    const data = await fetch(`${rootUrl}/routes`).then(res => res.json())
+    const data = await fetch(`/routes`).then(res => res.json())
 
+    routeData = await loadData(data)
+   
     loadRouteOptions(data)
-
-    // get data of each route from server based on the link in above data
-    for (let d of data) {
-        routeData[d.route] = await fetch(`${rootUrl}/${d.link}`).then(res => res.json())
-    }
 
     initializeSavedRoute(data)
     loadScheduleData(routeData[selectedRoute.value])
