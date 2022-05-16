@@ -24,7 +24,7 @@ const initializeDayTime = () => {
 
     const phDates = phData.vcalendar[0].vevent.map(d => d.dtstart[0])
 
-    const todayDateAsString = `${now.getFullYear().toString()}${(now.getMonth()+1).toString().padStart(2,"0")}${(now.getDay()+1).toString().padStart(2,"0")}`
+    const todayDateAsString = `${now.getFullYear().toString()}${(now.getMonth()+1).toString().padStart(2,"0")}${(now.getDate()).toString().padStart(2,"0")}`
 
     if (phDates.includes(todayDateAsString)) {
         selectedDay.value = "ph"
