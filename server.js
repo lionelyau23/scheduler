@@ -11,8 +11,6 @@ app.use(cors())
 app.use(express.static('public'))
 
 app.get('/routes', (req, res) => {
-    console.log('routes')
-    res.setHeader('Content-Type', 'application/json')
 
     fs.readFile('./data/routes.json', (err, data) => {
         res.json(JSON.parse(data))
@@ -21,7 +19,6 @@ app.get('/routes', (req, res) => {
 
 app.get('/routes/peng-chau--central', (req, res) => {
 
-    res.setHeader('Content-Type', 'application/json')
     fs.readFile('./data/peng-chau--central.json', (err, data) => {
         res.json(JSON.parse(data))
     })
@@ -29,7 +26,6 @@ app.get('/routes/peng-chau--central', (req, res) => {
 
 app.get('/routes/peng-chau--discovery-bay--trappist-dairy', (req, res) => {
 
-    res.setHeader('Content-Type', 'application/json')
     fs.readFile('./data/peng-chau--discovery-bay--trappist-dairy.json', (err, data) => {
         res.json(JSON.parse(data))
     })
